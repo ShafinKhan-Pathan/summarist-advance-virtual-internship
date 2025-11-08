@@ -11,9 +11,9 @@ import {
 } from "../constants/StaticData";
 import StatisticsWrapper from "./StatisticsWrapper";
 import Testimonials from "./Testimonials";
-import Button from "../ui/Button";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import LoginTriggerButton from "../ui/LoginTriggerButton";
 
 const Landing = () => {
   return (
@@ -29,7 +29,7 @@ const Landing = () => {
               Great summaries for busy people, individuals who barely have time
               to read, and even people who dont like to read.
             </p>
-            <Button onloading={false} signUp={false} />
+            <LoginTriggerButton />
           </div>
           <div className="hidden md:flex w-[50%] md:items-center justify-center">
             <figure>
@@ -38,7 +38,7 @@ const Landing = () => {
                 alt="LandingLogo"
                 width={550}
                 height={350}
-                className="hidden md:block"
+                className="hidden md:block h-auto w-auto"
                 priority
               />
             </figure>
@@ -82,7 +82,7 @@ const Landing = () => {
           ))}
         </div>
         <div className="flex flex-col items-center justify-center w-[70%] m-auto p-4">
-          <Button onloading={false} signUp={false}/>
+          <LoginTriggerButton />
         </div>
         <h1 className="py-10 px-4 text-center p-4 text-2xl font-bold ">
           Understand books in few minutes

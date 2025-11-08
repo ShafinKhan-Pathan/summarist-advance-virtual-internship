@@ -1,5 +1,4 @@
-"use client"
-import Link from "next/link";
+"use client";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { openLogin } from "../redux/ModalSlice";
@@ -20,7 +19,12 @@ const Navbar = () => {
         </figure>
         <ul className="flex gap-2 text-slate-500 ">
           <li className="hover:text-green-600 duration-300 cursor-pointer">
-            <Link href={""} onClick={() => dispatch(openLogin())}>Login</Link>
+            <button
+              onClick={() => dispatch(openLogin())}
+              className="text-slate-500 hover:text-green-600 duration-300 cursor-pointer bg-transparent"
+            >
+              Login
+            </button>
           </li>
           <li className="cursor-not-allowed hidden md:block">About</li>
           <li className="cursor-not-allowed hidden md:block">Contact</li>

@@ -2,13 +2,13 @@
 import { Provider } from "react-redux";
 import Landing from "./components/Landing";
 import { store } from "./redux/store";
-import Login from "./auth/Login";
+import AuthForm from "./auth/AuthForm";
 
 export default function Home() {
   return (
     <>
       <Provider store={store}>
-        <Login />
+        <AuthForm />
         <Landing />
       </Provider>
     </>
