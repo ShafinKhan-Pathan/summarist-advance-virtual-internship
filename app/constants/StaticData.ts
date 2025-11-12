@@ -3,6 +3,7 @@ import { LuCrown } from "react-icons/lu";
 import { TbStarsFilled } from "react-icons/tb";
 import { GiThreeLeaves } from "react-icons/gi";
 import { IconType } from "react-icons";
+import { FiHome, FiBook, FiStar, FiSearch, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
 
 export interface CaptionTitle {
     icon: IconType;
@@ -29,6 +30,13 @@ export interface Footer {
         name: string,
         disabled?: boolean
     }[]
+}
+export interface Sidebar {
+    icon: IconType;
+    name: string;
+    path: string;
+    disabled?: boolean
+    isLogout?: boolean
 }
 export const CaptionTitleData: CaptionTitle[] = [
     {
@@ -131,4 +139,16 @@ export const FooterLinks: Footer[] = [
             { name: "Privacy Policies", disabled: true },
         ],
     },
+]
+export const SidebarLinks: Sidebar[] = [
+    { icon: FiHome, name: "Home", path: "/for-you" },
+    { icon: FiBook, name: "My Library", path: "/library", disabled: true },
+    { icon: FiStar, name: "Highlights", path: "/highlights", disabled: true },
+    { icon: FiSearch, name: "Search", path: "/search", disabled: true },
+
+]
+export const SidebarLinksAdditional: Sidebar[] = [
+    { icon: FiSettings, name: "Settings", path: "/settings", disabled: true },
+    { icon: FiHelpCircle, name: "Help", path: "/help", disabled: true },
+    { icon: FiLogOut, name: "Logout", path: "/logout", disabled:false, isLogout: true },
 ]

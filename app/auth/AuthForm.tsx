@@ -19,6 +19,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   sendPasswordResetEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import AuthModal from "./AuthModal";
@@ -118,7 +119,7 @@ const AuthForm = () => {
     }
   };
   const navigateToDashboard = () => {
-    router.push("/for-you");
+    router.replace("/for-you");
     reset();
   };
   useEffect(() => {
@@ -128,6 +129,14 @@ const AuthForm = () => {
       reset();
     }
   }, [isOpen]);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        router.replace("/for-you");
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
   if (!isOpen) return null;
   return (
     <>

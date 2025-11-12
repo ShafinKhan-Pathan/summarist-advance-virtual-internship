@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import PrivateLayout from "../layout/PrivateLayout";
 
 const page = () => {
   const [user, setUser] = useState<any>();
@@ -12,7 +13,7 @@ const page = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
-        router.push("/");
+        router.replace("/");
       } else {
         setUser(currentUser);
       }
@@ -22,20 +23,22 @@ const page = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.push("/");
+      router.replace("/");
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
 
   return (
-    <div>
-      {user ? <h1>Hello {user.email}</h1> : "Loading..."}
+    <PrivateLayout>
+      <div>
+        {user ? <h1>Hello {user.email}</h1> : "Loading..."}
 
-      <Link href={"/"} onClick={handleLogout}>
-        Logout
-      </Link>
-    </div>
+        <Link href={"/"} onClick={handleLogout}>
+          Logout
+        </Link>
+      </div>
+    </PrivateLayout>
   );
 };
 
