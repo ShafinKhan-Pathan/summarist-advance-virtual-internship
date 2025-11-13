@@ -8,8 +8,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { closeSideBar } from "../redux/SidebarSlice";
 import { FaTimes } from "react-icons/fa";
-import { motion } from "framer-motion";
+function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
+  return (
+    <>
+      <div>
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={150}
+          height={50}
+          className="mb-8"
+        />
+        <ul className="space-y-16 mt-10">
+          {SidebarLinks.map((link, index) => (
+            <li
+              key={index}
+              className={`w-full flex items-center gap-3  rounded-md px-3 py-2 transition-all ${
+                link.disabled
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer hover:bg-slate-200"
+              } `}
+            >
+              <link.icon size={20} />
+              <span className="text-lg">{link.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
+      <div>
+        <ul className="space-y-16">
+          {SidebarLinksAdditional.map((link, index) => (
+            <li
+              key={index}
+              onClick={link.isLogout ? onLogout : undefined}
+              className={`w-full flex items-center gap-3 rounded-md px-3 py-2 transition-all  ${
+                link.disabled
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer hover:bg-slate-200"
+              } `}
+            >
+              <link.icon size={20} />
+              <span className="text-lg">{link.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
 const Sidebar = () => {
   const router = useRouter();
   const isOpen = useSelector((state: RootState) => state.sidebarSlice.isOpen);
@@ -25,71 +72,24 @@ const Sidebar = () => {
   return (
     <>
       {isOpen && (
-        <motion.div
-          key="sidebarmenu"
-          initial={{ x: -300, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -300, opacity: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 100,
-            damping: 20,
-            duration: 0.8,
-          }}
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={() => dispatch(closeSideBar())}
-        />
-      )}
-      <aside
-        className={`bg-[#f7faf9] shadow-2xl md:flex md:flex-col justify-between list-none p-4 w-[220px] min-h-screen  ${
-          isOpen
-            ? "fixed top-0 left-0 flex flex-col justify-between w-[400px] z-50"
-            : "hidden"
-        }`}
-      >
-        <div>
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={150}
-            height={50}
-            className="mb-8"
+        <div className="bg-[#f7faf9] shadow-2xl md:hidden justify-between flex flex-col list-none p-4 w-[350px] min-h-screen fixed top-0 left-0 z-50">
+          <SidebarInner
+            onLogout={async () => {
+              await handleLogout();
+              dispatch(closeSideBar());
+            }}
           />
-          <ul className="space-y-16 mt-10">
-            {SidebarLinks.map((link, index) => (
-              <li
-                key={index}
-                className={`w-full flex items-center gap-3  rounded-md px-3 py-2 transition-all ${
-                  link.disabled
-                    ? "cursor-not-allowed"
-                    : "cursor-pointer hover:bg-slate-200"
-                } `}
-              >
-                <link.icon size={20} />
-                <span className="text-lg">{link.name}</span>
-              </li>
-            ))}
-          </ul>
+          <button
+            onClick={() => dispatch(closeSideBar())}
+            className="text-gray-500 hover:text-black transition md:hidden absolute top-6 right-10"
+          >
+            <FaTimes size={25} />
+          </button>
         </div>
-
-        <div>
-          <ul className="space-y-16">
-            {SidebarLinksAdditional.map((link, index) => (
-              <li
-                key={index}
-                onClick={link.isLogout ? () => handleLogout() : undefined}
-                className={`w-full flex items-center gap-3 rounded-md px-3 py-2 transition-all  ${
-                  link.disabled
-                    ? "cursor-not-allowed"
-                    : "cursor-pointer hover:bg-slate-200"
-                } `}
-              >
-                <link.icon size={20} />
-                <span className="text-lg">{link.name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      )}
+      
+      <aside className="bg-[#f7faf9] shadow-2xl hidden md:flex md:flex-col justify-between list-none p-4 w-[220px] h-screen sticky left-0 top-0  z-40">
+        <SidebarInner onLogout={handleLogout} />
       </aside>
     </>
   );

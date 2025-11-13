@@ -4,7 +4,7 @@ export interface SidebarState {
   isOpen: boolean;
 }
 const initialState: SidebarState = {
-  isOpen: true,
+  isOpen: false,
 };
 
 export const sidebarSlice = createSlice({
