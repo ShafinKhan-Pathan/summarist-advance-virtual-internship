@@ -3,12 +3,16 @@ import Image from "next/image";
 import { SidebarLinks, SidebarLinksAdditional } from "../constants/StaticData";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { closeSideBar } from "../redux/SidebarSlice";
 import { FaTimes } from "react-icons/fa";
 function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const isPlayerPage = pathname.startsWith("/player/");
+  const dispatch = useDispatch();
   return (
     <>
       <div>
@@ -17,13 +21,20 @@ function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
           alt="Logo"
           width={150}
           height={50}
-          className="mb-8"
+          className="mb-8 w-auto h-auto"
         />
         <ul className="space-y-16 mt-10">
           {SidebarLinks.map((link, index) => (
             <li
               key={index}
-              className={`w-full flex items-center gap-3  rounded-md px-3 py-2 transition-all ${
+              onClick={() => {
+                if (!link.disabled && !link.isLogout) {
+                  router.push(link.path);
+                  dispatch(closeSideBar());
+                }
+                if (link.isLogout) onLogout();
+              }}
+              className={`w-full flex items-center gap-3 rounded-md px-3 py-2 transition-all ${
                 link.disabled
                   ? "cursor-not-allowed"
                   : "cursor-pointer hover:bg-slate-200"
@@ -37,12 +48,12 @@ function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
       </div>
 
       <div>
-        <ul className="space-y-16">
+        <ul className={`space-y-16 ${isPlayerPage ? "pb-24" : "pb-0"}`}>
           {SidebarLinksAdditional.map((link, index) => (
             <li
               key={index}
               onClick={link.isLogout ? onLogout : undefined}
-              className={`w-full flex items-center gap-3 rounded-md px-3 py-2 transition-all  ${
+              className={`w-full flex items-center gap-3 rounded-md px-3  py-2 transition-all  ${
                 link.disabled
                   ? "cursor-not-allowed"
                   : "cursor-pointer hover:bg-slate-200"
@@ -87,7 +98,7 @@ const Sidebar = () => {
           </button>
         </div>
       )}
-      
+
       <aside className="bg-[#f7faf9] shadow-2xl hidden md:flex md:flex-col justify-between list-none p-4 w-[220px] h-screen sticky left-0 top-0  z-40">
         <SidebarInner onLogout={handleLogout} />
       </aside>

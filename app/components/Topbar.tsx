@@ -15,7 +15,7 @@ const Topbar = () => {
           />
           <FiSearch size={20} className="inline-block m-2" />
         </form>
-        <button className="md:hidden" onClick={() => dispatch(toggleSideBar())}>
+        <button className="md:hidden cursor-pointer" onClick={() => dispatch(toggleSideBar())}>
           <FaBars size={20} />
         </button>
       </div>
