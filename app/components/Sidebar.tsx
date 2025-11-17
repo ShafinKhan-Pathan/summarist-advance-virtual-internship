@@ -48,7 +48,7 @@ function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
       </div>
 
       <div>
-        <ul className={`space-y-16 ${isPlayerPage ? "pb-24" : "pb-0"}`}>
+        <ul className={`space-y-16 ${isPlayerPage ? "pb-48" : "pb-0"}`}>
           {SidebarLinksAdditional.map((link, index) => (
             <li
               key={index}
@@ -99,7 +99,7 @@ const Sidebar = () => {
         </div>
       )}
 
-      <aside className="bg-[#f7faf9] shadow-2xl hidden md:flex md:flex-col justify-between list-none p-4 w-[220px] h-screen sticky left-0 top-0  z-40">
+      <aside className="bg-[#f7faf9] shadow-2xl hidden md:flex md:flex-col justify-between list-none p-4 w-[220px] h-screen sticky left-0 top-0 z-40">
         <SidebarInner onLogout={handleLogout} />
       </aside>
     </>

@@ -29,7 +29,9 @@ const page = () => {
                 {data?.title}
               </h1>
               <p className="text-[#032b41] font-bold">{data?.author}</p>
-              <p className="text-[#032b41] font-semibold text-xl">{data?.subTitle}</p>
+              <p className="text-[#032b41] font-semibold text-xl">
+                {data?.subTitle}
+              </p>
               <div className="border-t border-b border-[#e1e7ea] pt-4 pb-4 mb-8">
                 <div className="max-w-[400px] flex flex-wrap gap-y-3">
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
@@ -56,13 +58,16 @@ const page = () => {
               </div>
               <div className="flex w-full space-x-4">
                 <Link href={`/player/${data?.id}`}>
-                <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
-                  <LuBookOpenText size={20} className="" color="white" /> Read
-                </button>
+                  <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
+                    <LuBookOpenText size={20} className="" color="white" /> Read
+                  </button>
                 </Link>
-                <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2">
-                  <AiOutlineAudio size={20} className="" color="white" /> Listen
-                </button>
+                <Link href={`/player/${data?.id}`}>
+                  <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
+                    <AiOutlineAudio size={20} className="" color="white" />{" "}
+                    Listen
+                  </button>
+                </Link>
               </div>
               <div className="flex  items-center mt-4 mb-4 space-x-2 cursor-pointer font-semibold">
                 <MdOutlineBookmarkAdd size={20} color="#0365f2" />

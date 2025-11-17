@@ -1,1 +1,34 @@
 @import "tailwindcss";
+
+.audio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #22c55e var(--progress),
+    #6b7280 var(--progress)
+  );
+}
+
+.audio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  /* margin-top: -5px; */
+}
+
+.audio-slider::-moz-range-thumb {
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
