@@ -32,3 +32,8 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+.choose__plan--header::before{
+  content: "";
+  background-color:#032b41 ;
+}

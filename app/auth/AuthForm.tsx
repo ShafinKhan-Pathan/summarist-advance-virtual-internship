@@ -196,7 +196,7 @@ const AuthForm = () => {
                 </h1>
                 <p>{googleLoading ? "Signing in..." : "Login with Google"}</p>
               </button>
-              <Divider />
+              <Divider  />
             </>
           )}
         </div>

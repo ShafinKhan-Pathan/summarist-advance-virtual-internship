@@ -57,12 +57,24 @@ const page = () => {
                 </div>
               </div>
               <div className="flex w-full space-x-4">
-                <Link href={`/player/${data?.id}`}>
+                <Link
+                  href={`${
+                    data?.subscriptionRequired
+                      ? `/choose-plan`
+                      : `/player/${data?.id}`
+                  }`}
+                >
                   <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
                     <LuBookOpenText size={20} className="" color="white" /> Read
                   </button>
                 </Link>
-                <Link href={`/player/${data?.id}`}>
+                <Link
+                  href={`${
+                    data?.subscriptionRequired
+                      ? `/choose-plan`
+                      : `/player/${data?.id}`
+                  }`}
+                >
                   <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
                     <AiOutlineAudio size={20} className="" color="white" />{" "}
                     Listen
@@ -75,10 +87,11 @@ const page = () => {
               </div>
               <h1 className="font-semibold text-2xl">What's it about?</h1>
               <div className="flex flex-wrap w-full space-x-4 mb-4">
-                <button className="bg-[#f1f6f4] font-semibold p-2 rounded-sm w-50 flex items-center justify-center gap-2 mb-4">
+                <button className="bg-[#f1f6f4] font-semibold p-2 rounded-sm w-full flex items-center justify-start md:w-70 md:justify-center gap-2 mb-4">
                   {data?.tags[0]}
                 </button>
-                <button className="bg-[#f1f6f4] font-semibold p-2 rounded-sm w-50 flex items-center justify-center gap-2 mb-4">
+                <button className="bg-[#f1f6f4] font-semibold p-2 rounded-sm w-full flex items-center justify-start md:w-70 md:justify-center gap-2 mb-4">
+                  {/* #f1f6f4 */}
                   {data?.tags[1]}
                 </button>
               </div>

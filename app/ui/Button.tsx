@@ -1,9 +1,11 @@
 interface Props {
-  onloading: boolean;
-  signUp: boolean;
-  forgotPassword: boolean;
+  onloading?: boolean;
+  signUp?: boolean;
+  forgotPassword?: boolean;
+  subscription?:boolean;
+  selectedPlan?:string;
 }
-const Button = ({ onloading, signUp, forgotPassword }: Props) => {
+const Button = ({ onloading, signUp, forgotPassword, subscription, selectedPlan }: Props) => {
   return (
     <button
       disabled={onloading}
@@ -18,6 +20,8 @@ const Button = ({ onloading, signUp, forgotPassword }: Props) => {
         ? "Send Reset Link"
         : signUp
         ? "Sign Up"
+        : subscription
+        ? selectedPlan === "monthly" ? "Start your first month" : "Start your free 7-day trial"
         : "Login"}
     </button>
   );
