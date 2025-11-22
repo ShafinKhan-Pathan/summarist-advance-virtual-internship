@@ -1,5 +1,8 @@
+import { auth } from "@/firebase/firebase";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { CiClock2, CiStar } from "react-icons/ci";
+import { getUserSubscription } from "../utils/getSubscription";
 
 interface BookListProps {
   data: any;
@@ -7,6 +10,21 @@ interface BookListProps {
   isError: boolean;
 }
 const BookList = ({ data, isLoading, isError }: BookListProps) => {
+  const [isPremium, setIsPremium] = useState(false);
+
+  useEffect(() => {
+    const checkTheSubscription = async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        setIsPremium(false);
+        return;
+      }
+      const subscription = await getUserSubscription(user.uid);
+      setIsPremium(!!subscription);
+    };
+    checkTheSubscription();
+  }, []);
+
   return (
     <div>
       <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory mb-8">
@@ -19,13 +37,14 @@ const BookList = ({ data, isLoading, isError }: BookListProps) => {
               className="relative snap-start px-4 pt-8 pb-3 no-underline rounded w-full max-w-[200px] flex-none hover:bg-[#f1f6f4] cursor-pointer"
               key={book.id}
             >
-              <p
-                className={`absolute top-0 right-0 text-xs bg-blue-950 text-white rounded-xl ${
-                  book.subscriptionRequired ? "p-1" : "p-0"
-                }`}
-              >
-                {book.subscriptionRequired ? "Premium" : ""}
-              </p>
+              {book.subscriptionRequired && !isPremium && (
+                <p
+                  className={`absolute top-0 right-0 text-xs bg-blue-950 text-white rounded-xl p-1`}
+                >
+                  Premium
+                </p>
+              )}
+
               <img src={book.imageLink} alt="" className="rounded-md mb-2" />
               <h4 className="font-bold text-md text-[#032b41] leading-relaxed mb-1">
                 {book.title}

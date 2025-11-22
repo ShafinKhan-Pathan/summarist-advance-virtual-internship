@@ -155,7 +155,7 @@ export const SidebarLinks: Sidebar[] = [
 
 ]
 export const SidebarLinksAdditional: Sidebar[] = [
-    { icon: FiSettings, name: "Settings", path: "/settings", disabled: true },
+    { icon: FiSettings, name: "Settings", path: "/settings"},
     { icon: FiHelpCircle, name: "Help", path: "/help", disabled: true },
     { icon: FiLogOut, name: "Logout", path: "/logout", disabled: false, isLogout: true },
 ]

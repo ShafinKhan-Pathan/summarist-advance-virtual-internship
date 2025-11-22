@@ -7,9 +7,35 @@ import { AiOutlineBulb, AiOutlineAudio } from "react-icons/ai";
 import { LuBookOpenText } from "react-icons/lu";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import Link from "next/link";
+import { getUserSubscription } from "@/app/utils/getSubscription";
+import { auth } from "@/firebase/firebase";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 const page = () => {
   const { id } = useParams();
+  const router = useRouter();
+  const [checking, setChecking] = useState(false);
+  const [activeBtn, setActiveBtn] = useState<"read" | "listen" | null>(null);
   const { data, isLoading, isError } = useGetBookByIdQuery(String(id));
+  const handleAccess = async (btnType: "read" | "listen") => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please login to continue");
+      return;
+    }
+
+    setChecking(true);
+    setActiveBtn(btnType);
+    const subscription = await getUserSubscription(user.uid);
+    setChecking(false);
+    setActiveBtn(null);
+
+    if (!subscription) {
+      router.push("/choose-plan");
+    } else {
+      router.push(`/player/${id}`);
+    }
+  };
   return (
     <PrivateLayout>
       <div>
@@ -57,29 +83,23 @@ const page = () => {
                 </div>
               </div>
               <div className="flex w-full space-x-4">
-                <Link
-                  href={`${
-                    data?.subscriptionRequired
-                      ? `/choose-plan`
-                      : `/player/${data?.id}`
-                  }`}
+                <button
+                  className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => handleAccess("read")}
                 >
-                  <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
-                    <LuBookOpenText size={20} className="" color="white" /> Read
-                  </button>
-                </Link>
-                <Link
-                  href={`${
-                    data?.subscriptionRequired
-                      ? `/choose-plan`
-                      : `/player/${data?.id}`
-                  }`}
+                  <LuBookOpenText size={20} />{" "}
+                  {checking && activeBtn === "read" ? "Checking..." : "Read"}
+                </button>
+
+                <button
+                  className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => handleAccess("listen")}
                 >
-                  <button className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer">
-                    <AiOutlineAudio size={20} className="" color="white" />{" "}
-                    Listen
-                  </button>
-                </Link>
+                  <AiOutlineAudio size={20} />{" "}
+                  {checking && activeBtn === "listen"
+                    ? "Checking..."
+                    : "Listen"}
+                </button>
               </div>
               <div className="flex  items-center mt-4 mb-4 space-x-2 cursor-pointer font-semibold">
                 <MdOutlineBookmarkAdd size={20} color="#0365f2" />

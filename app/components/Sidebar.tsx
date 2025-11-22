@@ -52,7 +52,13 @@ function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
           {SidebarLinksAdditional.map((link, index) => (
             <li
               key={index}
-              onClick={link.isLogout ? onLogout : undefined}
+              onClick={() => {
+                if (!link.disabled && !link.isLogout) {
+                  router.push(link.path);
+                  dispatch(closeSideBar());
+                }
+                if (link.isLogout) onLogout();
+              }}
               className={`w-full flex items-center gap-3 rounded-md px-3  py-2 transition-all  ${
                 link.disabled
                   ? "cursor-not-allowed"
