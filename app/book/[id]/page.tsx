@@ -6,7 +6,6 @@ import { CiClock2, CiStar } from "react-icons/ci";
 import { AiOutlineBulb, AiOutlineAudio } from "react-icons/ai";
 import { LuBookOpenText } from "react-icons/lu";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
-import Link from "next/link";
 import { getUserSubscription } from "@/app/utils/getSubscription";
 import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/navigation";
@@ -23,9 +22,12 @@ const page = () => {
       alert("Please login to continue");
       return;
     }
-
-    setChecking(true);
-    setActiveBtn(btnType);
+    if (data?.subscriptionRequired === false) {
+      setChecking(false);
+      setActiveBtn(null);
+      router.push(`/player/${id}`);
+      return;
+    }
     const subscription = await getUserSubscription(user.uid);
     setChecking(false);
     setActiveBtn(null);
