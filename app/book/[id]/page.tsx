@@ -2,14 +2,13 @@
 import PrivateLayout from "@/app/layout/PrivateLayout";
 import { useGetBookByIdQuery } from "@/app/redux/BookSlice";
 import { useParams } from "next/navigation";
-import { CiClock2, CiStar } from "react-icons/ci";
-import { AiOutlineBulb, AiOutlineAudio } from "react-icons/ai";
-import { LuBookOpenText } from "react-icons/lu";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
+import { Clock, Star, Lightbulb, Volume2, BookOpen, BookmarkPlus } from "lucide-react";
 import { getUserSubscription } from "@/app/utils/getSubscription";
 import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import BookDetailSkeleton from "@/app/skeleton/BookDetailSkeleton";
+import AudioTime from "@/app/components/AudioComponents/AudioTime";
 const page = () => {
   const { id } = useParams();
   const router = useRouter();
@@ -38,11 +37,11 @@ const page = () => {
       router.push(`/player/${id}`);
     }
   };
+  if (isLoading) return <BookDetailSkeleton />;
   return (
     <PrivateLayout>
       <div>
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error loading book details.</p>}
+        {isError && <p className="font-bold text-2xl text-[#032b41] text-center">Error loading book details.</p>}
         {data && (
           <div className="flex flex-col w-full 2xl:w-[75%] mx-auto min-h-screen relative lg:flex-row-reverse">
             <div className="flex items-start justify-center w-full">
@@ -63,23 +62,23 @@ const page = () => {
               <div className="border-t border-b border-[#e1e7ea] pt-4 pb-4 mb-8">
                 <div className="max-w-[400px] flex flex-wrap gap-y-3">
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
-                    <CiStar size={20} />
+                    <Star size={20} />
                     <p>
                       {data?.averageRating} ({data?.totalRating} ratings){" "}
                     </p>
                   </div>
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
-                    <CiClock2 size={20} />
-                    <p>03:24</p>
+                    <Clock size={20} />
+                   <AudioTime audioUrl={data?.audioLink}/>
                   </div>
                 </div>
                 <div className="max-w-[400px] flex flex-wrap gap-y-3 mt-2">
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
-                    <AiOutlineAudio size={20} />
+                    <Volume2 size={20} />
                     <p>{data?.type}</p>
                   </div>
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
-                    <AiOutlineBulb size={20} />
+                    <Lightbulb size={20} />
                     <p>{data?.keyIdeas} Key ideas</p>
                   </div>
                 </div>
@@ -89,7 +88,7 @@ const page = () => {
                   className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer"
                   onClick={() => handleAccess("read")}
                 >
-                  <LuBookOpenText size={20} />{" "}
+                  <BookOpen size={20} />{" "}
                   {checking && activeBtn === "read" ? "Checking..." : "Read"}
                 </button>
 
@@ -97,14 +96,14 @@ const page = () => {
                   className="bg-blue-950 p-2 text-white rounded-sm w-36 flex items-center justify-center gap-2 cursor-pointer"
                   onClick={() => handleAccess("listen")}
                 >
-                  <AiOutlineAudio size={20} />{" "}
+                  <Volume2 size={20} />{" "}
                   {checking && activeBtn === "listen"
                     ? "Checking..."
                     : "Listen"}
                 </button>
               </div>
               <div className="flex  items-center mt-4 mb-4 space-x-2 cursor-pointer font-semibold">
-                <MdOutlineBookmarkAdd size={20} color="#0365f2" />
+                <BookmarkPlus size={20} color="#0365f2" />
                 <p className="text-[#0365f2]"> Add title to My Library</p>
               </div>
               <h1 className="font-semibold text-2xl">What's it about?</h1>

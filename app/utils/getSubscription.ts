@@ -1,5 +1,5 @@
 import { db } from "@/firebase/firebase";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 export async function getUserSubscription(uid: string) {
   try {

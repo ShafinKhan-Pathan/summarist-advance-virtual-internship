@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { ChoosePlans, FaqsData } from "../constants/StaticData";
 import CaptionTitle from "../ui/CaptionTitle";
-import Divider from "../ui/Divider";
 import Button from "../ui/Button";
 import Footer from "../components/Footer";
 import Accordian from "../ui/FaqSection";

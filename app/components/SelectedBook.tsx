@@ -1,13 +1,18 @@
-import { FaPlayCircle } from "react-icons/fa";
+import { PlayCircle } from "lucide-react";
 import { useGetSelectedBookQuery } from "../redux/BookSlice";
 import Link from "next/link";
+import SelectedBookSkeleton from "../skeleton/SelectedBookSkeleton";
 
 const SelectedBook = () => {
   const { data, isLoading, isError } = useGetSelectedBookQuery();
+  if (isLoading) return <SelectedBookSkeleton />;
   return (
     <>
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error loading selected book.</p>}
+      {isError && (
+        <p className="font-bold text-2xl text-[#032b41]">
+          Error loading selected book.
+        </p>
+      )}
       {data &&
         data.map((book: any) => (
           <Link href={`/book/${book.id}`} key={book.id}>
@@ -21,7 +26,7 @@ const SelectedBook = () => {
                   <h1 className="font-bold text-xl">{book.title}</h1>
                   <p className="text-slate-600">{book.author}</p>
                   <div className="flex justify-center items-center gap-2 mt-4">
-                    <FaPlayCircle size={35} /> 3 Mins 25 Secs
+                    <PlayCircle size={35} /> 3 Mins 23 Secs
                   </div>
                 </div>
               </div>

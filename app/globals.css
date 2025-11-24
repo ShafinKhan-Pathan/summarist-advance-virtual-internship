@@ -37,3 +37,10 @@
   content: "";
   background-color:#032b41 ;
 }
+
+.scrollbar-hide::-webkit-scrollbar{
+  display: none;
+}
+.scrollbar-hide{
+  scrollbar-width: none;
+}

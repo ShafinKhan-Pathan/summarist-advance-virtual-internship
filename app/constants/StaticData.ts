@@ -1,15 +1,6 @@
-import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
-import { LuCrown } from "react-icons/lu";
-import { TbStarsFilled } from "react-icons/tb";
-import { GiThreeLeaves } from "react-icons/gi";
-import { IconType } from "react-icons";
-import { FiHome, FiBook, FiStar, FiSearch, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
-import { FaHandshake } from "react-icons/fa6";
-import { RiPlantFill } from "react-icons/ri";
-
-
+import { Volume2, LucideIcon, Lightbulb, FileText, Crown, Sparkles, Leaf, Home, Book, Search, Star, Settings, HelpCircle, LogOut, Handshake, Sprout } from "lucide-react";
 export interface CaptionTitle {
-    icon: IconType;
+    icon: LucideIcon;
     title?: string;
     description: string
     feature?: boolean
@@ -35,7 +26,7 @@ export interface Footer {
     }[]
 }
 export interface Sidebar {
-    icon: IconType;
+    icon: LucideIcon;
     name: string;
     path: string;
     disabled?: boolean
@@ -47,16 +38,16 @@ export interface Faqs {
 }
 export const CaptionTitleData: CaptionTitle[] = [
     {
-        icon: AiFillFileText,
+        icon: FileText,
         title: "Read or listen",
         description: "Save time by getting the core ideas from the best books."
     }, {
-        icon: AiFillBulb,
+        icon: Lightbulb,
         title: "Find your next read",
         description: "Explore book lists and personalized recommendations."
     },
     {
-        icon: AiFillAudio,
+        icon: Volume2,
         title: "Briefcasts",
         description: "Gain valuable insights from briefcasts. Use AI Audio Feature"
     },
@@ -95,16 +86,16 @@ export const RealTestimonials: Testimonials[] = [
 ]
 export const FeatureTitles: CaptionTitle[] = [
     {
-        icon: LuCrown,
+        icon: Crown,
         title: "3 Million",
         description: "Downloads on all platforms"
     }, {
-        icon: TbStarsFilled,
+        icon: Sparkles,
         title: "4.5 Stars",
         description: "Average ratings on iOS and Google Play"
     },
     {
-        icon: GiThreeLeaves,
+        icon: Leaf,
         title: "97%",
         description: "Of Summarist members create a better reading habit"
     },
@@ -148,27 +139,27 @@ export const FooterLinks: Footer[] = [
     },
 ]
 export const SidebarLinks: Sidebar[] = [
-    { icon: FiHome, name: "Home", path: "/for-you" },
-    { icon: FiBook, name: "My Library", path: "/library", disabled: true },
-    { icon: FiStar, name: "Highlights", path: "/highlights", disabled: true },
-    { icon: FiSearch, name: "Search", path: "/search", disabled: true },
+    { icon: Home, name: "Home", path: "/for-you" },
+    { icon: Book, name: "My Library", path: "/library", disabled: true },
+    { icon: Star, name: "Highlights", path: "/highlights", disabled: true },
+    { icon: Search, name: "Search", path: "/search", disabled: true },
 
 ]
 export const SidebarLinksAdditional: Sidebar[] = [
-    { icon: FiSettings, name: "Settings", path: "/settings"},
-    { icon: FiHelpCircle, name: "Help", path: "/help", disabled: true },
-    { icon: FiLogOut, name: "Logout", path: "/logout", disabled: false, isLogout: true },
+    { icon: Settings, name: "Settings", path: "/settings" },
+    { icon: HelpCircle, name: "Help", path: "/help", disabled: true },
+    { icon: LogOut, name: "Logout", path: "/logout", disabled: false, isLogout: true },
 ]
 export const ChoosePlans: CaptionTitle[] = [
     {
-        icon: AiFillFileText,
+        icon: FileText,
         description: "Key ideas in few min with many books to read"
     }, {
-        icon: RiPlantFill,
+        icon: Sprout,
         description: "3 million people growing with Summarist everyday"
     },
     {
-        icon: FaHandshake,
+        icon: Handshake,
         description: "Precise recommendations collections curated by experts"
     },
 ]

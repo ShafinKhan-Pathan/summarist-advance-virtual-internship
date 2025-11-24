@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { IoClose } from "react-icons/io5";
+import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { closeLogin } from "../redux/ModalSlice";
 
@@ -26,7 +26,7 @@ const AuthModal = ({ children }: { children: React.ReactNode }) => {
           onClick={() => dispatch(closeLogin())}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 cursor-pointer"
         >
-          <IoClose size={35} />
+          <X size={35} />
         </button>
         {children}
       </motion.div>

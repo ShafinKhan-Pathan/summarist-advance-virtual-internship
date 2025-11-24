@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import { FaRegCirclePause, FaRegCirclePlay } from "react-icons/fa6";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
+import { useEffect,  useState } from "react";
+import { PauseCircle, PlayCircle, Undo2, Redo2 } from "lucide-react";
 
 const Controls = ({ audioRef }: any) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -31,13 +29,13 @@ const Controls = ({ audioRef }: any) => {
           }
         }}
       >
-        <TbRewindBackward10 size={30} />
+        <Undo2 size={30} />
       </button>
       <button onClick={() => setIsPlaying((prev) => !prev)}>
         {isPlaying ? (
-          <FaRegCirclePause size={35} />
+          <PauseCircle size={35} />
         ) : (
-          <FaRegCirclePlay size={35} />
+          <PlayCircle size={35} />
         )}
       </button>
       <button
@@ -47,7 +45,7 @@ const Controls = ({ audioRef }: any) => {
           }
         }}
       >
-        <TbRewindForward10 size={30} />
+        <Redo2 size={30} />
       </button>
     </div>
   );

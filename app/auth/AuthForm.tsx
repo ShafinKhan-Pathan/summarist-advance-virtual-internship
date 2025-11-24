@@ -1,12 +1,11 @@
 "use client";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { GrUserAdmin } from "react-icons/gr";
+import { UserCog, EyeOff, Eye } from "lucide-react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import Button from "../ui/Button";
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Divider from "../ui/Divider";
@@ -171,7 +170,7 @@ const AuthForm = () => {
                 className="relative bg-[#3a579d] text-white w-full p-2 flex justify-center items-center border-2 cursor-pointer"
               >
                 <h1 className="absolute left-2">
-                  <GrUserAdmin size={25} />
+                  <UserCog size={25} />
                 </h1>
                 <p>Login as Guest</p>
               </button>
@@ -229,7 +228,7 @@ const AuthForm = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                  {showPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
               {errors.password && (

@@ -2,14 +2,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import modalSlice from './ModalSlice'
 import sidebarSlice from './SidebarSlice'
 import { bookAPI } from './BookSlice'
+import { searchAPI } from './SearchSlice'
 export const store = configureStore({
     reducer: {
         modalSlice: modalSlice,
         sidebarSlice: sidebarSlice,
         [bookAPI.reducerPath]: bookAPI.reducer,
+        [searchAPI.reducerPath]: searchAPI.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(bookAPI.middleware),
+        getDefaultMiddleware().concat(bookAPI.middleware, searchAPI.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

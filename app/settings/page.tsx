@@ -1,11 +1,12 @@
 "use client";
 
 import { auth, db } from "@/firebase/firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import PrivateLayout from "../layout/PrivateLayout";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
+import SettingsSkeleton from "../skeleton/SettingsSkeleton";
 
 const Settings = () => {
   const [status, setStatus] = useState("loading");
@@ -14,7 +15,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchSubscription = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        setStatus("Basic");
+        setStatus("basic");
         return;
       }
       setEmail(user.email || "");
@@ -31,36 +32,39 @@ const Settings = () => {
           premium = true;
         }
       });
-
-      setStatus(premium ? "Premium" : "Basic");
+      setStatus(premium ? "premium" : "basic");
     });
     return () => fetchSubscription();
   }, []);
   return (
     <PrivateLayout>
-      <div className="w-full lg:max-w-[65%] mx-auto space-y-10">
-        <h1 className="text-2xl md:text-4xl font-bold mb-8 border-b border-[#e1e7ea]">
-          Settings
-        </h1>
-        <p className="text-lg border-b border-[#e1e7ea]">
-          <span className="font-bold">Your Subscription Plan: </span>
-          <br />
-          {status}
-        </p>
-        <p className="text-lg border-b border-[#e1e7ea]">
-          <span className="font-bold">Email: </span>
-          <br />
-          {email ? `${email}` : "Guest"}
-        </p>
-        {status === "basic" && (
-          <Link
-            href="/choose-plan"
-            className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%] hover:bg-green-600 duration-300 cursor-pointer`}
-          >
-            Upgrade to Premium
-          </Link>
-        )}
-      </div>
+      {status === "loading" ? (
+        <SettingsSkeleton />
+      ) : (
+        <div className="w-full lg:max-w-[65%] mx-auto space-y-10">
+          <h1 className="text-2xl md:text-4xl font-bold mb-8 border-b border-[#e1e7ea]">
+            Settings
+          </h1>
+          <p className="text-lg border-b border-[#e1e7ea]">
+            <span className="font-bold">Your Subscription Plan: </span>
+            <br />
+            {status === "premium" ? "Premium" : "Basic"}
+          </p>
+          <p className="text-lg border-b border-[#e1e7ea]">
+            <span className="font-bold">Email: </span>
+            <br />
+            {email ? `${email}` : "Guest"}
+          </p>
+          {status === "basic" && (
+            <Link
+              href="/choose-plan"
+              className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%] hover:bg-green-600 duration-300 cursor-pointer`}
+            >
+              Upgrade to Premium
+            </Link>
+          )}
+        </div>
+      )}
     </PrivateLayout>
   );
 };

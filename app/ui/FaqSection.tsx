@@ -1,4 +1,4 @@
-import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Accordian = ({ faq, i, openQuestion, setOpenQuestion }: any) => {
   const handleToggle = (i: any) => {
@@ -24,10 +24,10 @@ const Accordian = ({ faq, i, openQuestion, setOpenQuestion }: any) => {
         <button className="absolute right-10 top-0">
           {openQuestion === i ? (
             <>
-              <IoIosArrowDropup size={35} className="cursor-pointer" />
+              <ChevronDown size={35} className="cursor-pointer" />
             </>
           ) : (
-            <IoIosArrowDropdown size={35} className="cursor-pointer" />
+            <ChevronUp size={35} className="cursor-pointer" />
           )}
         </button>
       </div>

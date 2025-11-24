@@ -1,8 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
 import { useEffect, useState } from "react";
-import { string } from "zod";
 
 const formatTime = (second: number | undefined): string => {
   if (!second || isNaN(second)) return "00:00";

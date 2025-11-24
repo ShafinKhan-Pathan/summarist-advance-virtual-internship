@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { closeSideBar } from "../redux/SidebarSlice";
-import { FaTimes } from "react-icons/fa";
+import { X } from "lucide-react";
 function SidebarInner({ onLogout }: { onLogout: () => Promise<void> }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -100,7 +100,7 @@ const Sidebar = () => {
             onClick={() => dispatch(closeSideBar())}
             className="text-gray-500 hover:text-black transition md:hidden absolute top-6 right-10"
           >
-            <FaTimes size={25} />
+            <X size={25} />
           </button>
         </div>
       )}
