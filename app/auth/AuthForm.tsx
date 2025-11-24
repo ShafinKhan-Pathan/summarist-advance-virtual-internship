@@ -1,5 +1,5 @@
 "use client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { UserCog, EyeOff, Eye } from "lucide-react";
 import Image from "next/image";
@@ -23,6 +23,7 @@ import {
 import { useRouter } from "next/navigation";
 import AuthModal from "./AuthModal";
 import AuthTitle from "./AuthTitle";
+import { closeLogin } from "../redux/ModalSlice";
 
 const AuthForm = () => {
   const router = useRouter();
@@ -32,6 +33,8 @@ const AuthForm = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [isForgotPassword, setForgotPassword] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isGuest, setIsGuest] = useState(false);
+  const dispatch = useDispatch();
 
   const schema = z.object({
     email: z.string().email("Please enter a valid email address"),
@@ -72,7 +75,9 @@ const AuthForm = () => {
       } else {
         await signInWithEmailAndPassword(auth, email, password as string);
       }
-      navigateToDashboard();
+      dispatch(closeLogin());
+      reset();
+      return;
     } catch (error: any) {
       let message = "An unexpected error occurred";
       if (error.code === "auth/email-already-in-use")
@@ -88,7 +93,9 @@ const AuthForm = () => {
     try {
       setGoogleLoading(true);
       await signInWithPopup(auth, provider);
-      navigateToDashboard();
+      dispatch(closeLogin());
+      reset();
+      return;
     } catch (error: any) {
       let message = "An unexpected error occurred during Google login.";
       if (error.code === "auth/popup-closed-by-user")
@@ -106,7 +113,6 @@ const AuthForm = () => {
     try {
       await sendPasswordResetEmail(auth, email);
       setSuccessMessage("✅ Password reset link sent! Check your inbox.");
-
       reset();
     } catch (error: any) {
       let message = "Failed to send reset email.";
@@ -121,6 +127,7 @@ const AuthForm = () => {
     router.replace("/for-you");
     reset();
   };
+
   useEffect(() => {
     if (!isOpen) {
       setIsSignUp(false);
@@ -130,12 +137,10 @@ const AuthForm = () => {
   }, [isOpen]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        router.replace("/for-you");
-      }
+      setIsGuest(currentUser?.isAnonymous ?? false);
     });
     return () => unsubscribe();
-  }, [router]);
+  }, []);
   if (!isOpen) return null;
   return (
     <>
@@ -147,15 +152,18 @@ const AuthForm = () => {
                 ? "Welcome to Summarist ✨"
                 : isForgotPassword
                 ? "Reset your password"
+                : isGuest
+                ? "Guest accounts cannot access premium content. Please login or create an account"
                 : "Login in to Summarist ✨"
             }
           />
-          {!isSignUp && !isForgotPassword && (
+          {!isGuest && !isSignUp && !isForgotPassword && (
             <>
               <button
                 onClick={async () => {
                   try {
                     await signInAnonymously(auth);
+                    dispatch(closeLogin());
                     navigateToDashboard();
                   } catch (error: any) {
                     let message =
@@ -195,7 +203,7 @@ const AuthForm = () => {
                 </h1>
                 <p>{googleLoading ? "Signing in..." : "Login with Google"}</p>
               </button>
-              <Divider  />
+              <Divider />
             </>
           )}
         </div>

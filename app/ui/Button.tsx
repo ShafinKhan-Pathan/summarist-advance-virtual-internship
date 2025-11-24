@@ -17,16 +17,14 @@ const Button = ({
   const handleClick = async () => {
     if (!subscription) return;
     const user = auth.currentUser;
-
     if (!user) {
       alert("Please login to continue");
       return;
     }
-
     const MONTHLY_PRICE_ID = "price_1SVxN4CXVGTDafRAPLUSyRCf";
     const YEARLY_PRICE_ID = "price_1SW1PdCXVGTDafRA5QhVEL5I";
     const priceToUse =
-      selectedPlan === "monthly" ? MONTHLY_PRICE_ID : YEARLY_PRICE_ID;
+    selectedPlan === "monthly" ? MONTHLY_PRICE_ID : YEARLY_PRICE_ID;
     await createCheckoutSession(user?.uid, priceToUse);
   };
   return (

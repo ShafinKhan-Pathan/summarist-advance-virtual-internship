@@ -2,25 +2,40 @@
 import PrivateLayout from "@/app/layout/PrivateLayout";
 import { useGetBookByIdQuery } from "@/app/redux/BookSlice";
 import { useParams } from "next/navigation";
-import { Clock, Star, Lightbulb, Volume2, BookOpen, BookmarkPlus } from "lucide-react";
+import {
+  Clock,
+  Star,
+  Lightbulb,
+  Volume2,
+  BookOpen,
+  BookmarkPlus,
+} from "lucide-react";
 import { getUserSubscription } from "@/app/utils/getSubscription";
 import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import BookDetailSkeleton from "@/app/skeleton/BookDetailSkeleton";
 import AudioTime from "@/app/components/AudioComponents/AudioTime";
+import { useDispatch } from "react-redux";
+import { openLogin } from "@/app/redux/ModalSlice";
 const page = () => {
   const { id } = useParams();
   const router = useRouter();
   const [checking, setChecking] = useState(false);
   const [activeBtn, setActiveBtn] = useState<"read" | "listen" | null>(null);
   const { data, isLoading, isError } = useGetBookByIdQuery(String(id));
+  const dispatch = useDispatch();
   const handleAccess = async (btnType: "read" | "listen") => {
     const user = auth.currentUser;
     if (!user) {
       alert("Please login to continue");
       return;
     }
+    if (user?.isAnonymous && data?.subscriptionRequired === true) {
+      dispatch(openLogin());
+      return;
+    }
+    router.push("/choose-plan");
     if (data?.subscriptionRequired === false) {
       setChecking(false);
       setActiveBtn(null);
@@ -41,7 +56,11 @@ const page = () => {
   return (
     <PrivateLayout>
       <div>
-        {isError && <p className="font-bold text-2xl text-[#032b41] text-center">Error loading book details.</p>}
+        {isError && (
+          <p className="font-bold text-2xl text-[#032b41] text-center">
+            Error loading book details.
+          </p>
+        )}
         {data && (
           <div className="flex flex-col w-full 2xl:w-[75%] mx-auto min-h-screen relative lg:flex-row-reverse">
             <div className="flex items-start justify-center w-full">
@@ -69,7 +88,7 @@ const page = () => {
                   </div>
                   <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
                     <Clock size={20} />
-                   <AudioTime audioUrl={data?.audioLink}/>
+                    <AudioTime audioUrl={data?.audioLink} />
                   </div>
                 </div>
                 <div className="max-w-[400px] flex flex-wrap gap-y-3 mt-2">

@@ -4,13 +4,18 @@ import { auth, db } from "@/firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import PrivateLayout from "../layout/PrivateLayout";
-import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
 import SettingsSkeleton from "../skeleton/SettingsSkeleton";
+import { useDispatch } from "react-redux";
+import { openLogin } from "../redux/ModalSlice";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Settings = () => {
   const [status, setStatus] = useState("loading");
   const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSubscription = onAuthStateChanged(auth, async (user) => {
@@ -36,6 +41,15 @@ const Settings = () => {
     });
     return () => fetchSubscription();
   }, []);
+
+  const handleGuestLogin = () => {
+    const user = auth.currentUser;
+    if (user?.isAnonymous) {
+      dispatch(openLogin());
+      return;
+    }
+    router.push("/choose-plan");
+  };
   return (
     <PrivateLayout>
       {status === "loading" ? (
@@ -53,12 +67,16 @@ const Settings = () => {
           <p className="text-lg border-b border-[#e1e7ea]">
             <span className="font-bold">Email: </span>
             <br />
-            {email ? `${email}` : "Guest"}
+            {email ? `${email}` : "guestuser@gmail.com"}
           </p>
           {status === "basic" && (
             <Link
-              href="/choose-plan"
-              className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%] hover:bg-green-600 duration-300 cursor-pointer`}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleGuestLogin();
+              }}
+              className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[30%] hover:bg-green-600 duration-300 cursor-pointer`}
             >
               Upgrade to Premium
             </Link>
