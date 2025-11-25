@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Summarist",
   description: "AI powered book summaries",
+  icons: {
+    icon: "/TabLogo.png",
+  },
   other: {
     "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
   },
