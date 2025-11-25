@@ -1,5 +1,6 @@
 import { auth } from "@/firebase/firebase";
 import { createCheckoutSession } from "../utils/createCheckoutSession";
+import { useState } from "react";
 interface Props {
   onloading?: boolean;
   signUp?: boolean;
@@ -14,6 +15,7 @@ const Button = ({
   subscription,
   selectedPlan,
 }: Props) => {
+  const [loading, setLoading] = useState(false)
   const handleClick = async () => {
     if (!subscription) return;
     const user = auth.currentUser;
@@ -21,6 +23,7 @@ const Button = ({
       alert("Please login to continue");
       return;
     }
+    setLoading(true)
     const MONTHLY_PRICE_ID = "price_1SVxN4CXVGTDafRAPLUSyRCf";
     const YEARLY_PRICE_ID = "price_1SW1PdCXVGTDafRA5QhVEL5I";
     const priceToUse =
@@ -32,12 +35,12 @@ const Button = ({
       disabled={onloading}
       onClick={subscription ? handleClick : undefined}
       type="submit"
-      className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%]  ${
+      className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%] mb-4  ${
         forgotPassword ? "lg:w-70%" : "lg:w-[50%]"
       } hover:bg-green-600 duration-300 cursor-pointer`}
     >
-      {onloading
-        ? "Loading..."
+      {loading
+        ? "Redirecting..."
         : forgotPassword
         ? "Send Reset Link"
         : signUp

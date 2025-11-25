@@ -7,7 +7,7 @@ const LoginTriggerButton = () => {
     <button
       type="submit"
       onClick={() => dispatch(openLogin())}
-      className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[70%] hover:bg-green-600 duration-300 cursor-pointer`}
+      className={`bg-green-400 w-[70%] rounded-lg p-2 md:w-[50%] hover:bg-green-600 duration-300 cursor-pointer`}
     >
       Login
     </button>

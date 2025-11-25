@@ -8,7 +8,6 @@ const AuthTitle = ({ text }: { text: string }) => {
       transition={{ duration: 0.6 }}
     >
       {text}
-      
     </motion.h2>
   );
 };

@@ -1,31 +1,19 @@
-import { auth } from "@/firebase/firebase";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Clock, Star } from "lucide-react";
-import { getUserSubscription } from "../utils/getSubscription";
 import BookListLoading from "../skeleton/BookListLoading";
 import BookListError from "../skeleton/BookListError";
 import AudioTime from "../components/AudioComponents/AudioTime";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 interface BookListProps {
   data: any;
   isLoading: boolean;
   isError: boolean;
 }
 const BookList = ({ data, isLoading, isError }: BookListProps) => {
-  const [isPremium, setIsPremium] = useState(false);
-  useEffect(() => {
-    const checkTheSubscription = async () => {
-      const user = auth.currentUser;
-      if (!user) {
-        setIsPremium(false);
-        return;
-      }
-      const subscription = await getUserSubscription(user.uid);
-      setIsPremium(!!subscription);
-    };
-    checkTheSubscription();
-  }, []);
-
+  const isPremium = useSelector(
+    (state: RootState) => state.subsctiptionSlice.isPremium
+  );
   if (isLoading) return <BookListLoading />;
   if (isError) return <BookListError />;
 
@@ -34,7 +22,6 @@ const BookList = ({ data, isLoading, isError }: BookListProps) => {
       <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory mb-8 scrollbar-hide scroll-smooth">
         {data &&
           data.map((book: any) => {
-            
             return (
               <Link
                 href={`/book/${book.id}`}
@@ -42,13 +29,15 @@ const BookList = ({ data, isLoading, isError }: BookListProps) => {
                 key={book.id}
                 title=""
               >
-                {book.subscriptionRequired && !isPremium && (
-                  <p
-                    className={`absolute top-0 right-0 text-xs bg-blue-950 text-white rounded-xl p-1`}
-                  >
-                    Premium
-                  </p>
-                )}
+                {isPremium !== null &&
+                  book.subscriptionRequired &&
+                  !isPremium && (
+                    <p
+                      className={`absolute top-0 right-0 text-xs bg-blue-950 text-white rounded-xl p-1`}
+                    >
+                      Premium
+                    </p>
+                  )}
 
                 <img
                   src={book.imageLink}
@@ -65,7 +54,9 @@ const BookList = ({ data, isLoading, isError }: BookListProps) => {
                 </p>
                 <div className="flex justify-between items-center absolute bottom-0 text-slate-500 space-x-2 ">
                   <Clock size={15} />
-                  <p className="mr-2"><AudioTime audioUrl={book?.audioLink}/></p>
+                  <p className="mr-2">
+                    <AudioTime audioUrl={book?.audioLink} />
+                  </p>
                   <Star />
                   <p className="mr-2">{book.averageRating}</p>
                 </div>

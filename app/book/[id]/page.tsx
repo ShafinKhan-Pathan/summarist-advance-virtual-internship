@@ -26,22 +26,28 @@ const page = () => {
   const { data, isLoading, isError } = useGetBookByIdQuery(String(id));
   const dispatch = useDispatch();
   const handleAccess = async (btnType: "read" | "listen") => {
+
+    setChecking(true)
+    setActiveBtn(btnType)
     const user = auth.currentUser;
     if (!user) {
-      alert("Please login to continue");
+      dispatch(openLogin())
+      setChecking(false)
       return;
     }
-    if (user?.isAnonymous && data?.subscriptionRequired === true) {
+    // Guest users cannot access premium contents
+    if (user.isAnonymous && data?.subscriptionRequired) {
       dispatch(openLogin());
+      setChecking(false)
       return;
     }
-    router.push("/choose-plan");
-    if (data?.subscriptionRequired === false) {
-      setChecking(false);
-      setActiveBtn(null);
+
+    if (!data?.subscriptionRequired) {
       router.push(`/player/${id}`);
+      setChecking(false)
       return;
     }
+    // Premium Books Checking subscription status first
     const subscription = await getUserSubscription(user.uid);
     setChecking(false);
     setActiveBtn(null);

@@ -43,7 +43,7 @@ const ProgressBar = ({ audioRef }: any) => {
       <input
         type="range"
         min={0}
-        max={duration}
+        max={duration || 1}
         value={current}
         onChange={(e) => {
           audioRef.current.currentTime = Number(e.target.value);

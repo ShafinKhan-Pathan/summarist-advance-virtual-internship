@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import modalSlice from './ModalSlice'
 import sidebarSlice from './SidebarSlice'
+import subscriptionSlice from "../redux/SubscriptionSlice"
 import { bookAPI } from './BookSlice'
 import { searchAPI } from './SearchSlice'
 export const store = configureStore({
     reducer: {
         modalSlice: modalSlice,
         sidebarSlice: sidebarSlice,
+        subsctiptionSlice: subscriptionSlice,
         [bookAPI.reducerPath]: bookAPI.reducer,
         [searchAPI.reducerPath]: searchAPI.reducer
     },
