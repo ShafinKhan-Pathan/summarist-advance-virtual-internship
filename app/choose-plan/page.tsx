@@ -9,13 +9,13 @@ const plans = [
   {
     id: "yearly",
     title: "Premium Plus Yearly",
-    price: "$99.99/year",
+    price: "$49.99/year",
     trial: "7-day free trial included",
   },
   {
     id: "monthly",
     title: "Premium Monthly",
-    price: "$9.99/month",
+    price: "$10.00/month",
     trial: "No trial included",
   },
 ];
