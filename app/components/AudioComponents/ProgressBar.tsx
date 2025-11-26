@@ -17,10 +17,14 @@ const ProgressBar = ({ audioRef }: any) => {
   const [current, setCurrent] = useState<number>(0);
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = audioRef.current as HTMLAudioElement | null;
     if (!audio) return;
 
-    const onLoaded = () => setDuration(audio.duration);
+    const onLoaded = () => {
+      if (!isNaN(audio.duration) && audio.duration > 0) {
+        setDuration(audio.duration);
+      }
+    };
     const onTime = () => setCurrent(audio.currentTime);
     const onEnd = () => {
       audio.currentTime = 0;
@@ -29,6 +33,9 @@ const ProgressBar = ({ audioRef }: any) => {
     audio.addEventListener("loadedmetadata", onLoaded);
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnd);
+    if (audio.readyState >= 1) {
+      onLoaded();
+    }
 
     return () => {
       audio.removeEventListener("loadedmetadata", onLoaded);
@@ -40,17 +47,22 @@ const ProgressBar = ({ audioRef }: any) => {
   return (
     <div className="flex justify-center items-center gap-2 w-full md:w-[calc(100%/3)]">
       <span>{formatTime(current)}</span>
-      <input
-        type="range"
-        min={0}
-        max={duration || 1}
-        value={current}
-        onChange={(e) => {
-          audioRef.current.currentTime = Number(e.target.value);
-        }}
-        className="audio-slider w-full max-w-[70%] md:w-[50%] cursor-pointer"
-        style={{ ["--progress" as any]: `${(current / duration) * 100}%` }}
-      />
+      {duration === 0 ? (
+        <div className="w-full max-w-[70%] md:w-[50%] h-2 bg-gray-600/40 rounded animate-pulse" />
+      ) : (
+        <input
+          type="range"
+          min={0}
+          max={duration}
+          value={current}
+          onChange={(e) => {
+            audioRef.current.currentTime = Number(e.target.value);
+          }}
+          className="audio-slider w-full max-w-[70%] md:w-[50%] cursor-pointer"
+          style={{ ["--progress" as any]: `${(current / duration) * 100}%` }}
+        />
+      )}
+
       <span>{formatTime(duration)}</span>
     </div>
   );
