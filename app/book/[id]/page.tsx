@@ -86,23 +86,23 @@ const page = () => {
               </p>
               <div className="border-t border-b border-[#e1e7ea] pt-4 pb-4 mb-8">
                 <div className="max-w-[400px] flex flex-wrap gap-y-3">
-                  <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
+                  <div className="flex items-center w-[50%] text-sm gap-x-1 text-[#032b41] font-semibold">
                     <Star size={20} />
                     <p>
                       {data?.averageRating} ({data?.totalRating} ratings){" "}
                     </p>
                   </div>
-                  <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
+                  <div className="flex items-center w-[50%] text-sm gap-x-1 text-[#032b41] font-semibold">
                     <Clock size={20} />
                     <AudioTime audioUrl={data?.audioLink} />
                   </div>
                 </div>
                 <div className="max-w-[400px] flex flex-wrap gap-y-3 mt-2">
-                  <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
+                  <div className="flex items-center w-[50%] text-sm gap-x-1 text-[#032b41] font-semibold">
                     <Volume2 size={20} />
                     <p>{data?.type}</p>
                   </div>
-                  <div className="flex items-center w-[50%] text-sm text-[#032b41] font-semibold">
+                  <div className="flex items-center w-[50%] text-sm gap-x-1 text-[#032b41] font-semibold">
                     <Lightbulb size={20} />
                     <p>{data?.keyIdeas} Key ideas</p>
                   </div>

@@ -57,8 +57,12 @@ const BookList = ({ data, isLoading, isError }: BookListProps) => {
                   <p className="mr-2">
                     <AudioTime audioUrl={book?.audioLink} />
                   </p>
-                  <Star />
-                  <p className="mr-2">{book.averageRating}</p>
+                  <Star size={15} />
+                  <p className="mr-2">
+                    {book.averageRating != null
+                      ? Number(book.averageRating).toFixed(2)
+                      : "0.00"}
+                  </p>
                 </div>
               </Link>
             );
